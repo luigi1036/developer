@@ -45,6 +45,9 @@ public abstract class Cuenta {
         this.fechaCancelacion = fechaCancelacion;
     }
 
+    public abstract boolean abono(double cantidad);
+    public abstract boolean retiro(double cantidad);
+
     @Override
     public String toString() {
         return "Cuenta{" +

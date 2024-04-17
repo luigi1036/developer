@@ -17,6 +17,22 @@ public class CuentaCheque extends Cuenta{
     }
 
     @Override
+    public boolean abono(double cantidad) {
+        this.setSaldo(cantidad);
+        return true;
+    }
+
+    @Override
+    public boolean retiro(double cantidad) {
+        if(this.getSaldo() < cantidad){
+            new RuntimeException("el saldo es insuficiente");
+        }else{
+            this.setSaldo(this.getSaldo()- cantidad);
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "cuenta de cheques{" +
                 "numero=" + getNumero() +

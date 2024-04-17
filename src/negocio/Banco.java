@@ -1,8 +1,9 @@
 package negocio;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Banco {
+public class Banco implements IServicioClientes{
 
     private String nombre;
     private Domicilio domicilio;
@@ -72,5 +73,53 @@ public class Banco {
                 ", rfc='" + rfc + '\'' +
                 ", telefono='" + telefono + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean agregarCliente(Cliente cliente) {
+        clientes.add(cliente);
+        return true;
+    }
+
+    @Override
+    public boolean eliminarCliente(int numero) {
+        Cliente cliente = consultarCliente(numero);
+        if(cliente != null){
+            clientes.remove(cliente);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Cliente consultarCliente(int numero) {
+        for(Cliente cli: clientes){
+            if(cli.getNum() ==numero ){
+                return cli;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Cliente> obtenerClientes() {
+        return clientes;
+    }
+
+    @Override
+    public Cliente buscarClientePorRfc(String rfc) {
+        for(Cliente cli: clientes){
+            if(cli.getRfc() ==rfc ){
+                return cli;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void listarClientes() {
+        for (Cliente cli: clientes){
+            System.out.println("cli = " + cli);
+        }
     }
 }

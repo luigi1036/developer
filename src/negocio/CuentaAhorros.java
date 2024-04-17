@@ -17,6 +17,22 @@ public class CuentaAhorros extends Cuenta{
     }
 
     @Override
+    public boolean abono(double cantidad) {
+        this.setSaldo(this.getSaldo() + cantidad);
+        return true;
+    }
+
+    @Override
+    public boolean retiro(double cantidad) {
+        if(this.getSaldo() < cantidad){
+            throw new RuntimeException("el saldo es insuficiente");
+        }else{
+            this.setSaldo(this.getSaldo() - cantidad);
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "cuenta de ahorros{" +
                 "numero=" + getNumero() +

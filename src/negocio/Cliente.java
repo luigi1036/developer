@@ -1,10 +1,30 @@
 package negocio;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Cliente {
+public class Cliente implements IServicioCuentas{
 
+    private int num;
     private String nombre;
+    private String apellido;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     private int numeroCuenta;
     private Domicilio domicilio;
     private String rfc;
@@ -14,8 +34,10 @@ public class Cliente {
 
     private String fechaNacimiento;
 
-    public Cliente(String nombre, int numeroCuenta, Domicilio domicilio, String rfc, String telefono, String fechaNacimiento) {
+    public Cliente(int num, String nombre, String apellido, int numeroCuenta, Domicilio domicilio, String rfc, String telefono, String fechaNacimiento) {
+        this.num = num;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.numeroCuenta = numeroCuenta;
         this.domicilio = domicilio;
         this.rfc = rfc;
@@ -24,8 +46,10 @@ public class Cliente {
         this.cuentas = new ArrayList<>();
     }
 
-    public Cliente(String nombre, int numeroCuenta, String calle, String numero, String colonia, String estado, int codigoPostal) {
+    public Cliente(int num, String nombre, String apellido, int numeroCuenta, String calle, String numero, String colonia, String estado, int codigoPostal) {
+        this.num = num;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.numeroCuenta = numeroCuenta;
         this.domicilio = new Domicilio(calle, numero, colonia, estado, codigoPostal);
         this.cuentas = new ArrayList<>();
@@ -82,7 +106,9 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" +
+                "numero='" + num + '\'' +
                 "nombre='" + nombre + '\'' +
+                "apellido='" + apellido + '\'' +
                 ", numeroCuenta=" + numeroCuenta +
                 ", domicilio=" + domicilio +
                 ", rfc='" + rfc + '\'' +
@@ -90,5 +116,49 @@ public class Cliente {
                 ", cuentas=" + cuentas +
                 ", fechaNacimiento='" + fechaNacimiento + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean agregarCuenta(Cuenta cuenta) {
+        this.cuentas.add(cuenta);
+        return true;
+    }
+
+    @Override
+    public boolean cancelarCuenta(int numero) {
+        for (Cuenta c: this.cuentas){
+            if(c.getNumero() == numero){
+                this.cuentas.remove(c);
+                return true;
+            }
+        }
+        System.out.println("La cuenta con el # " + numero + " no existe");
+        return false;
+    }
+
+    @Override
+    public void abonarCuenta(int numero, double cantidad) {
+        for(Cuenta c: this.cuentas){
+            if(c.getNumero() == numero){
+                c.abono(cantidad);
+                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+            }
+        }
+
+    }
+
+    @Override
+    public void retirarCuenta(int numero, double cantidad) throws RuntimeException {
+        for(Cuenta c: this.cuentas){
+            if(c.getNumero() == numero){
+                c.retiro(cantidad);
+                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+            }
+        }
+    }
+
+    @Override
+    public List<Cuenta> obtenerCuentas() {
+        return this.cuentas;
     }
 }
