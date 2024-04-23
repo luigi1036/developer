@@ -93,12 +93,14 @@ public class Banco implements IServicioClientes{
 
     @Override
     public Cliente consultarCliente(int numero) {
-        for(Cliente cli: clientes){
-            if(cli.getNum() ==numero ){
-                return cli;
-            }
-        }
-        return null;
+       return clientes.stream().filter(cli -> cli.getNum() == numero)
+                .findFirst().orElse(null);
+//        for(Cliente cli: clientes){
+//            if(cli.getNum() ==numero ){
+//                return cli;
+//            }
+//        }
+//        return null;
     }
 
     @Override
@@ -108,18 +110,21 @@ public class Banco implements IServicioClientes{
 
     @Override
     public Cliente buscarClientePorRfc(String rfc) {
-        for(Cliente cli: clientes){
-            if(cli.getRfc() ==rfc ){
-                return cli;
-            }
-        }
-        return null;
+        return clientes.stream().filter(cli -> cli.getRfc().equals(rfc))
+                .findFirst().orElse(null);
+//        for(Cliente cli: clientes){
+//            if(cli.getRfc() ==rfc ){
+//                return cli;
+//            }
+//        }
+//        return null;
     }
 
     @Override
     public void listarClientes() {
-        for (Cliente cli: clientes){
-            System.out.println("cli = " + cli);
-        }
+        clientes.forEach(System.out::println);
+//        for (Cliente cli: clientes){
+//            System.out.println("cli = " + cli);
+//        }
     }
 }

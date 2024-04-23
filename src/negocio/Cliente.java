@@ -120,41 +120,54 @@ public class Cliente implements IServicioCuentas{
 
     @Override
     public boolean agregarCuenta(Cuenta cuenta) {
-        this.cuentas.add(cuenta);
-        return true;
+        return this.cuentas.add(cuenta);
+//        this.cuentas.add(cuenta);
+//        return true;
     }
 
     @Override
     public boolean cancelarCuenta(int numero) {
-        for (Cuenta c: this.cuentas){
-            if(c.getNumero() == numero){
-                this.cuentas.remove(c);
-                return true;
-            }
-        }
-        System.out.println("La cuenta con el # " + numero + " no existe");
-        return false;
+        return this.cuentas.removeIf(c -> c.getNumero() == numero);
+
+//        for (Cuenta c: this.cuentas){
+//            if(c.getNumero() == numero){
+//                this.cuentas.remove(c);
+//                return true;
+//            }
+//        }
+//        System.out.println("La cuenta con el # " + numero + " no existe");
+//        return false;
     }
 
     @Override
     public void abonarCuenta(int numero, double cantidad) {
-        for(Cuenta c: this.cuentas){
-            if(c.getNumero() == numero){
-                c.abono(cantidad);
-                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
-            }
-        }
+
+        cuentas.stream().filter(c -> c.getNumero() == numero).forEach(c -> {
+            c.abono(cantidad);
+            System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+        });
+//        for(Cuenta c: this.cuentas){
+//            if(c.getNumero() == numero){
+//                c.abono(cantidad);
+//                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+//            }
+//        }
 
     }
 
     @Override
     public void retirarCuenta(int numero, double cantidad) throws RuntimeException {
-        for(Cuenta c: this.cuentas){
-            if(c.getNumero() == numero){
-                c.retiro(cantidad);
-                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
-            }
-        }
+        this.cuentas.stream().filter(c -> c.getNumero() == numero).forEach(c -> {
+            c.retiro(cantidad);
+            System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+        });
+
+//        for(Cuenta c: this.cuentas){
+//            if(c.getNumero() == numero){
+//                c.retiro(cantidad);
+//                System.out.println("el nuevo saldo de la cuenta es: " + c.getSaldo());
+//            }
+//        }
     }
 
     @Override
